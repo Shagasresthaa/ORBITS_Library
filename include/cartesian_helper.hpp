@@ -25,6 +25,15 @@ namespace orbits{
     // Function to compute the magnitude of 3D vector
     double magnitude(const std::array<double, 3>& vec);
 
+	// Compute the angular momentum vector (cross product of r and v)
+    std::array<double, 3> angular_momentum(const std::array<double, 3>& position, const std::array<double, 3>& velocity);
+
+    // Compute the dot product of two 3D vectors
+    double dot_product(const std::array<double, 3>& v1, const std::array<double, 3>& v2);
+
+	// Compute the relative angle between two 3D vectors
+	double relative_angle(const std::array<double, 3>& v1, const std::array<double, 3>& v2);
+
 }
 
 #endif
