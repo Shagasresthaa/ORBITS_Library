@@ -1,5 +1,6 @@
 #include "cartesian_helper.hpp"
 #include "orbital_parameters.hpp"
+#include "body.hpp"
 
 #include <iostream>
 
@@ -53,6 +54,29 @@ int main() {
     // Compute and print inclination
     double i = orbit.inclination();
     std::cout << "Inclination: " << i << " radians\n";
+
+    // --- Test 4: Body ---
+    // Earth as a central body, Moon as an orbiting body
+    double mu_moon = 4902.8;       // km³/s²
+    double radius_moon = 1737.4;   // km
+    double mu_sun = 1.327124e11;   // km³/s²
+
+    orbits::Body earth("Earth", mu_earth, 6371.0);
+    orbits::Body moon("Moon", mu_moon, radius_moon,
+        orbits::Pos3D({384400.0, 0.0, 0.0}, {0.0, 1.022, 0.0}));
+
+    std::cout << "Body name: " << moon.name() << "\n";
+    std::cout << "Body mu: " << moon.mu() << " km^3/s^2\n";
+    std::cout << "Body radius: " << moon.radius() << " km\n";
+
+    orbits::OrbitalParameters moon_orbit = moon.orbital_parameters(earth.mu());
+    std::cout << "Moon semi-major axis: " << moon_orbit.semi_major_axis() << " km\n";
+    std::cout << "Moon eccentricity: " << moon_orbit.eccentricity() << "\n";
+    std::cout << "Moon inclination: " << moon_orbit.inclination() << " radians\n";
+
+    double moon_sma = moon_orbit.semi_major_axis();
+    double soi = moon.sphere_of_influence(earth.mu(), moon_sma);
+    std::cout << "Moon sphere of influence: " << soi << " km\n";
 
     return 0;
 }
